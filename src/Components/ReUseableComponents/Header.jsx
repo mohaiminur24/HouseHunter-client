@@ -2,11 +2,27 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 
 const Header = () => {
-
-    const HeaderMenu = <>
-    <li><NavLink to="/" className={({isActive})=> isActive && "text-yellow-500"}>Home</NavLink></li>
-    <li><NavLink to="/dashboard" className={({isActive})=> isActive && "text-yellow-500"}>Dashboard</NavLink></li>
+  // Header menu is here
+  const HeaderMenu = (
+    <>
+      <li>
+        <NavLink
+          to="/"
+          className={({ isActive }) => isActive && "text-yellow-500"}
+        >
+          Home
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
+          to="/dashboard"
+          className={({ isActive }) => isActive && "text-yellow-500"}
+        >
+          Dashboard
+        </NavLink>
+      </li>
     </>
+  );
 
   return (
     <div className="bg-base-200">
@@ -36,7 +52,9 @@ const Header = () => {
               {HeaderMenu}
             </ul>
           </div>
-          <NavLink to='/' className="font-bold font-Inter text-lg">House<span className="text-yellow-500">Hunter</span></NavLink>
+          <NavLink to="/" className="font-bold font-Inter text-lg">
+            House<span className="text-yellow-500">Hunter</span>
+          </NavLink>
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="flex gap-5 text-sm font-Inter menu-horizontal px-1">
@@ -44,7 +62,7 @@ const Header = () => {
           </ul>
         </div>
         <div className="navbar-end">
-          <a className="btn">Button</a>
+          <NavLink to="/login" className="font-Inter font-bold">Login</NavLink>
         </div>
       </div>
     </div>
