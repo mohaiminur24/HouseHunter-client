@@ -1,14 +1,44 @@
 import React from "react";
 import Container from "../ReUseableComponents/Container";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import Swal from "sweetalert2";
+import SetUser from "../CustomHook/SetUser";
 
 const LoginPage = () => {
     const { register, formState: { errors }, handleSubmit, reset } = useForm();
+    const navigate = useNavigate();
+
+    // Login system function implement is complete
     const handleLogin = data =>{
-        console.log(data)
-        reset();
-    }
+        fetch(`http://localhost:3000/getnewuser?email=${data.email}`).then(res=> res.json())
+        .then(resdata=>{
+          if(resdata?.password == data.password){
+            SetUser(resdata);
+            Swal.fire({
+              position: 'center',
+              icon: 'success',
+              title: 'User Login Successfully!',
+              showConfirmButton: false,
+              timer: 1500
+            })
+            reset();
+            navigate("/");
+          }else if(resdata?.error){
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'Email not match!',
+            });
+          }else{
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'password not match!',
+            });
+          }
+        });
+    };
   return (
     <Container>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5 justify-center items-center min-h-screen">
