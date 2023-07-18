@@ -45,7 +45,6 @@ const RegistrationPage = () => {
     .then(data=>{
       if(data.insertedId){
         createtoken(user);
-        console.log(user);
         Swal.fire({
           position: 'center',
           icon: 'success',
@@ -55,14 +54,18 @@ const RegistrationPage = () => {
         });
         SetUser(user);
         reset();
-        navigate('/');
+        if(user.role == "HouseRenter"){
+          navigate("/houserent");
+        }else{
+          navigate("/houseowner");
+        };
       }else{
         Swal.fire({
           icon: 'error',
           title: 'Oops...',
           text: 'This email already used!',
         })
-      }
+      };
     });
   };
 

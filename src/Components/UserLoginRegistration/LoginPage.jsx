@@ -26,7 +26,11 @@ const LoginPage = () => {
               timer: 1500
             })
             reset();
-            navigate("/");
+            if(resdata.role == "HouseRenter"){
+              navigate("/houserent");
+            }else{
+              navigate("/houseowner");
+            };
           }else if(resdata?.error){
             Swal.fire({
               icon: 'error',

@@ -3,50 +3,54 @@ import { NavLink } from "react-router-dom";
 import { AuthContext } from "../AuthContextAPI/ContextAPI";
 import GetUser from "../CustomHook/GetUser";
 import Swal from "sweetalert2";
+import HouseOwner from "../HouseOwnerDashboard/HouseOwner";
 
 const Header = () => {
   const [user, setUser] = useState(null);
 
-  useEffect(()=>{
+  useEffect(() => {
     const user = GetUser();
     setUser(user);
-  },[user])
+  }, []);
 
-  const handleLogout = ()=>{
+  const handleLogout = () => {
     localStorage.removeItem("user");
     setUser(null);
     localStorage.removeItem("access-token");
     Swal.fire({
-      position: 'center',
-      icon: 'success',
-      title: 'Logout User Successfully',
+      position: "center",
+      icon: "success",
+      title: "Logout User Successfully",
       showConfirmButton: false,
-      timer: 1500
-    })
+      timer: 1500,
+    });
   };
 
-   // Header menu is here
-   const HeaderMenu = (
+  // Header menu is here
+  const HeaderMenu = (
     <>
-      <li>
-        <NavLink
-          to="/"
-          className={({ isActive }) => isActive && "text-yellow-500"}
-        >
-          Home
-        </NavLink>
-      </li>
-      <li>
-        <NavLink
-          to="/dashboard"
-          className={({ isActive }) => isActive && "text-yellow-500"}
-        >
-          Dashboard
-        </NavLink>
-      </li>
+      {user && (
+        <>
+          <li>
+            <NavLink
+              to="/"
+              className={({ isActive }) => isActive && "text-yellow-500"}
+            >
+              Home
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to={user.role == "HouseRenter" ? "/houserent" : "/houseowner"}
+              className={({ isActive }) => isActive && "text-yellow-500"}
+            >
+              Dashboard
+            </NavLink>
+          </li>
+        </>
+      )}
     </>
   );
-
 
   return (
     <div className="bg-base-200">
@@ -86,7 +90,15 @@ const Header = () => {
           </ul>
         </div>
         <div className="navbar-end">
-          {user ? <button onClick={handleLogout} className="font-Inter font-bold">Logout</button> : <NavLink to="/login" className="font-Inter font-bold">Login</NavLink> }
+          {user ? (
+            <button onClick={handleLogout} className="font-Inter font-bold">
+              Logout
+            </button>
+          ) : (
+            <NavLink to="/login" className="font-Inter font-bold">
+              Login
+            </NavLink>
+          )}
         </div>
       </div>
     </div>

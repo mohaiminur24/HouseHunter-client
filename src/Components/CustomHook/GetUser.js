@@ -1,5 +1,5 @@
 const GetUser = () => {
-  return localStorage.getItem("user");
+  return JSON.parse(localStorage.getItem("user"));
 };
 
 export default GetUser;
