@@ -4,15 +4,40 @@ import Footer from "../ReUseableComponents/Footer";
 import Container from "../ReUseableComponents/Container";
 import GetUser from "../CustomHook/GetUser";
 import { useForm } from "react-hook-form";
+import Swal from "sweetalert2";
 
 const HouseOwner = () => {
   const user = GetUser();
-  const { register, handleSubmit,reset } = useForm();
+  const { register, handleSubmit, reset } = useForm();
 
-
-  const handleAddNewHouse = async(data) =>{
-    console.log(data);
-  }
+  const handleAddNewHouse = async (data) => {
+    const newHouse = {
+      ...data,
+      HouseOwner: user.name,
+      HouseEmail: user.email,
+      HousePhone: user.phone,
+    };
+    fetch("http://localhost:3000/createnewhouse", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(newHouse),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.insertedId) {
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "New House Add Successfully!",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      });
+    reset();
+  };
 
   return (
     <>
@@ -83,11 +108,14 @@ const HouseOwner = () => {
       <input type="checkbox" id="my_modal_6" className="modal-toggle" />
       <div className="modal">
         <div className="modal-box">
-            <h1 className="mb-5 font-Inter text-lg font-bold">Add New House</h1>
-          <form onClick={handleSubmit(handleAddNewHouse)} className="space-y-2 font-Inter text-sm">
+          <h1 className="mb-5 font-Inter text-lg font-bold">Add New House</h1>
+          <form
+            onClick={handleSubmit(handleAddNewHouse)}
+            className="space-y-2 font-Inter text-sm"
+          >
             <div className="grid grid-cols-2 gap-3">
               <input
-              {...register("name", { required: true })}
+                {...register("name", { required: true })}
                 className="border w-full outline-none px-3 py-1 rounded-sm"
                 type="text"
                 name="name"
@@ -95,7 +123,7 @@ const HouseOwner = () => {
                 placeholder="Name"
               />
               <input
-              {...register("address", { required: true })}
+                {...register("address", { required: true })}
                 className="border w-full outline-none px-3 py-1 rounded-sm"
                 type="text"
                 name="address"
@@ -105,7 +133,7 @@ const HouseOwner = () => {
             </div>
             <div className="grid grid-cols-2 gap-3">
               <input
-              {...register("city", { required: true })}
+                {...register("city", { required: true })}
                 className="border w-full outline-none px-3 py-1 rounded-sm"
                 type="text"
                 name="city"
@@ -113,7 +141,7 @@ const HouseOwner = () => {
                 placeholder="City"
               />
               <input
-              {...register("bedroom", { required: true })}
+                {...register("bedroom", { required: true })}
                 className="border w-full outline-none px-3 py-1 rounded-sm"
                 type="number"
                 name="bedroom"
@@ -123,7 +151,7 @@ const HouseOwner = () => {
             </div>
             <div className="grid grid-cols-2 gap-3">
               <input
-              {...register("bathroom", { required: true })}
+                {...register("bathroom", { required: true })}
                 className="border w-full outline-none px-3 py-1 rounded-sm"
                 type="number"
                 name="bathroom"
@@ -131,7 +159,7 @@ const HouseOwner = () => {
                 placeholder="BathRoom"
               />
               <input
-              {...register("roomsize", { required: true })}
+                {...register("roomsize", { required: true })}
                 className="border w-full outline-none px-3 py-1 rounded-sm"
                 type="number"
                 name="roomsize"
@@ -141,7 +169,7 @@ const HouseOwner = () => {
             </div>
             <div className="grid grid-cols-2 gap-3">
               <input
-              {...register("abilitydate", { required: true })}
+                {...register("abilitydate", { required: true })}
                 className="border w-full outline-none px-3 py-1 rounded-sm"
                 type="date"
                 name="abilitydate"
@@ -149,7 +177,7 @@ const HouseOwner = () => {
                 placeholder="Ability Date"
               />
               <input
-              {...register("rentpermonth", { required: true })}
+                {...register("rentpermonth", { required: true })}
                 className="border w-full outline-none px-3 py-1 rounded-sm"
                 type="number"
                 name="rentpermonth"
@@ -158,7 +186,7 @@ const HouseOwner = () => {
               />
             </div>
             <input
-            {...register("picture", { required: true })}
+              {...register("picture", { required: true })}
               className="border w-full outline-none px-3 py-1 rounded-sm"
               type="text"
               name="picture"
@@ -166,7 +194,7 @@ const HouseOwner = () => {
               placeholder="Thumbanil url"
             />
             <input
-            {...register("Phone", { required: true })}
+              {...register("Phone", { required: true })}
               className="border w-full outline-none px-3 py-1 rounded-sm"
               type="tel"
               name="Phone"
@@ -174,7 +202,7 @@ const HouseOwner = () => {
               placeholder="Phone"
             />
             <textarea
-            {...register("description", { required: true })}
+              {...register("description", { required: true })}
               className="border w-full outline-none px-3 py-1 rounded-sm"
               type="text"
               rows={5}
@@ -182,10 +210,17 @@ const HouseOwner = () => {
               id="description"
               placeholder="Description"
             />
-            <input className="outline-none px-3 py-2 bg-yellow-500 rounded-sm shadow-md w-full" type="submit" value="Add House" />
+            <input
+              className="outline-none px-3 py-2 bg-yellow-500 rounded-sm shadow-md w-full"
+              type="submit"
+              value="Add House"
+            />
           </form>
           <div className="modal-action">
-            <label htmlFor="my_modal_6" className="text-red-500 border px-3 border-red-500 absolute top-2 cursor-pointer right-2 py-1 rounded-full">
+            <label
+              htmlFor="my_modal_6"
+              className="text-red-500 border px-3 border-red-500 absolute top-2 cursor-pointer right-2 py-1 rounded-full"
+            >
               X
             </label>
           </div>
