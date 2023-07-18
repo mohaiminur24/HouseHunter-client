@@ -4,10 +4,8 @@ export const AuthContext = createContext(null);
 
 
 const ContextAPI = ({children}) => {
-    const [user, setUser] = useState("new user")
-
     const authValue = {
-        user
+        
     };
 
     return (

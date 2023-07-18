@@ -1,9 +1,14 @@
-import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import Container from "../ReUseableComponents/Container";
 import { useForm } from "react-hook-form";
+import Swal from "sweetalert2";
+import { AuthContext } from "../AuthContextAPI/ContextAPI";
+import SetUser from "../CustomHook/SetUser";
 
 const RegistrationPage = () => {
+  const {setUser} = useContext(AuthContext);
+  const navigate = useNavigate();
   const [passError, setErrorMessage] = useState(null);
   const {
     register,
@@ -12,8 +17,9 @@ const RegistrationPage = () => {
     reset,
   } = useForm();
 
-  const handleRegistration = (data) => {
+  const handleRegistration = async(data) => {
     // password validation is here
+    const user = data;
     setErrorMessage(null);
     const isContainsUppercase = /^(?=.*[A-Z]).*$/;
     const isContainsSymbol =
@@ -29,8 +35,33 @@ const RegistrationPage = () => {
       return;
     }
     // Password validation end from here
-
-    reset();
+    fetch("http://localhost:3000/createnewuser",{
+      method: "POST",
+      headers: {
+        "content-type": "application/json"
+      },
+      body: JSON.stringify(data),
+    }).then(res=> res.json())
+    .then(data=>{
+      if(data.insertedId){
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: 'User Create Successfully',
+          showConfirmButton: false,
+          timer: 1500
+        });
+        SetUser(user);
+        reset();
+        navigate('/');
+      }else{
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'This email already used!',
+        })
+      }
+    });
   };
 
   return (

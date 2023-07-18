@@ -1,7 +1,16 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
+import { AuthContext } from "../AuthContextAPI/ContextAPI";
+import GetUser from "../CustomHook/GetUser";
+import Swal from "sweetalert2";
 
 const Header = () => {
+  const [user, setUser] = useState(null);
+
+  useEffect(()=>{
+    const user = GetUser();
+    setUser(user);
+  },[user])
   // Header menu is here
   const HeaderMenu = (
     <>
@@ -23,6 +32,18 @@ const Header = () => {
       </li>
     </>
   );
+
+  const handleLogout = ()=>{
+    localStorage.removeItem("user");
+    setUser(null);
+    Swal.fire({
+      position: 'center',
+      icon: 'success',
+      title: 'Logout User Successfully',
+      showConfirmButton: false,
+      timer: 1500
+    })
+  };
 
   return (
     <div className="bg-base-200">
@@ -62,7 +83,7 @@ const Header = () => {
           </ul>
         </div>
         <div className="navbar-end">
-          <NavLink to="/login" className="font-Inter font-bold">Login</NavLink>
+          {user ? <button onClick={handleLogout} className="font-Inter font-bold">Logout</button> : <NavLink to="/login" className="font-Inter font-bold">Login</NavLink> }
         </div>
       </div>
     </div>
