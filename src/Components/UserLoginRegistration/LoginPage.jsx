@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import Container from "../ReUseableComponents/Container";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import SetUser from "../CustomHook/SetUser";
+import { AuthContext } from "../AuthContextAPI/ContextAPI";
 
 const LoginPage = () => {
     const { register, formState: { errors }, handleSubmit, reset } = useForm();
     const navigate = useNavigate();
+    const {createtoken} = useContext(AuthContext);
 
     // Login system function implement is complete
     const handleLogin = data =>{
@@ -15,6 +17,7 @@ const LoginPage = () => {
         .then(resdata=>{
           if(resdata?.password == data.password){
             SetUser(resdata);
+            createtoken(resdata);
             Swal.fire({
               position: 'center',
               icon: 'success',

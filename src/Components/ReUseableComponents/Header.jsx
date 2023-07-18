@@ -11,8 +11,22 @@ const Header = () => {
     const user = GetUser();
     setUser(user);
   },[user])
-  // Header menu is here
-  const HeaderMenu = (
+
+  const handleLogout = ()=>{
+    localStorage.removeItem("user");
+    setUser(null);
+    localStorage.removeItem("access-token");
+    Swal.fire({
+      position: 'center',
+      icon: 'success',
+      title: 'Logout User Successfully',
+      showConfirmButton: false,
+      timer: 1500
+    })
+  };
+
+   // Header menu is here
+   const HeaderMenu = (
     <>
       <li>
         <NavLink
@@ -33,17 +47,6 @@ const Header = () => {
     </>
   );
 
-  const handleLogout = ()=>{
-    localStorage.removeItem("user");
-    setUser(null);
-    Swal.fire({
-      position: 'center',
-      icon: 'success',
-      title: 'Logout User Successfully',
-      showConfirmButton: false,
-      timer: 1500
-    })
-  };
 
   return (
     <div className="bg-base-200">

@@ -15,6 +15,10 @@ const route = createBrowserRouter([
     {
         path: "/registration",
         element: <RegistrationPage/>
+    },
+    {
+        path:"/houseowner",
+        element: <h1>HouseOwner</h1>
     }
 ]);
 

@@ -7,7 +7,7 @@ import { AuthContext } from "../AuthContextAPI/ContextAPI";
 import SetUser from "../CustomHook/SetUser";
 
 const RegistrationPage = () => {
-  const {setUser} = useContext(AuthContext);
+  const {createtoken} = useContext(AuthContext);
   const navigate = useNavigate();
   const [passError, setErrorMessage] = useState(null);
   const {
@@ -44,6 +44,8 @@ const RegistrationPage = () => {
     }).then(res=> res.json())
     .then(data=>{
       if(data.insertedId){
+        createtoken(user);
+        console.log(user);
         Swal.fire({
           position: 'center',
           icon: 'success',
