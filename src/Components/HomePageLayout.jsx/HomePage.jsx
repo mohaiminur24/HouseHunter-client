@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Header from "../ReUseableComponents/Header";
-import { Outlet } from "react-router-dom";
 import Footer from "../ReUseableComponents/Footer";
 import Container from "../ReUseableComponents/Container";
-import AxiosFetch from "../CustomHook/AxiosFetch";
 import SingleHouse from "./SingleHouse";
 
 const HomePage = () => {
@@ -15,8 +13,30 @@ const HomePage = () => {
 
     const handlefilter = (event)=>{
         event.preventDefault();
+        let filterData;
         const from = event.target;
-
+        const city = from.city.value;
+        const bedroom = from.bedroom.value;
+        const roomsize = from.roomsize.value;
+        const abilitydate = from.ability.value;
+        const rentpermonth = from.Rentpermonth.value;
+        if(city && bedroom && roomsize && abilitydate){
+          filterData = {city,bedroom,abilitydate,roomsize};
+        }else if(city && bedroom && roomsize){
+          filterData = {city,bedroom,roomsize};
+        }else if(city && bedroom){
+          filterData = {city,bedroom};
+        }else if(city){
+          filterData = {city,bedroom,abilitydate,roomsize};
+        };
+        fetch(`http://localhost:3000/filterdata?rent=${rentpermonth}`,{
+          method:"POST",
+          headers:{
+            "content-type":"application/json"
+          },
+          body: JSON.stringify(filterData)
+        }).then(res=>res.json())
+        .then(data=> console.log(data));
     };
   return (
     <>
@@ -32,8 +52,8 @@ const HomePage = () => {
                     <input className="border w-full outline-none px-2 py-1" type="number" name="roomsize" id="roomsize" placeholder="Room Size meter"/>
                     <input className="border w-full outline-none px-2 py-1" type="date" name="ability" id="ability" />
                     <select className="border w-full outline-none px-2 py-1" name="Rentpermonth" id="rentpermonth">
-                        <option value="5000">Less then 5000</option>
-                        <option value="5000">More then 5000</option>
+                        <option value="less5000">Less then 5000</option>
+                        <option value="More5000">More then 5000</option>
                     </select>
                     <input className="border w-full outline-none px-2 py-1 bg-yellow-500 font-semibold" type="submit" value="Search" />
                 </form>
