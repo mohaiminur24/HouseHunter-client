@@ -5,9 +5,11 @@ import Container from "../ReUseableComponents/Container";
 import GetUser from "../CustomHook/GetUser";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
+import AxiosFetch from "../CustomHook/AxiosFetch";
 
 const HouseOwner = () => {
   const user = GetUser();
+  const axiosSecure = AxiosFetch();
   const { register, handleSubmit, reset } = useForm();
 
   const handleAddNewHouse = async (data) => {
@@ -17,25 +19,41 @@ const HouseOwner = () => {
       HouseEmail: user.email,
       HousePhone: user.phone,
     };
-    fetch("http://localhost:3000/createnewhouse", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(newHouse),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.insertedId) {
-          Swal.fire({
-            position: "center",
-            icon: "success",
-            title: "New House Add Successfully!",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-        }
-      });
+
+   const result =await axiosSecure.post("http://localhost:3000/createnewhouse", newHouse);
+   console.log(result);
+   if (result.data.insertedId) {
+    Swal.fire({
+      position: "center",
+      icon: "success",
+      title: "New House Add Successfully!",
+      showConfirmButton: false,
+      timer: 1500,
+    });
+   }else(
+    console.log("Somethins went wrong!")
+   )
+
+    // fetch("http://localhost:3000/createnewhouse", {
+    //   method: "POST",
+    //   headers: {
+    //     "content-type": "application/json",
+    //   },
+    //   body: JSON.stringify(newHouse),
+    // })
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     if (data.insertedId) {
+    //       Swal.fire({
+    //         position: "center",
+    //         icon: "success",
+    //         title: "New House Add Successfully!",
+    //         showConfirmButton: false,
+    //         timer: 1500,
+    //       });
+    //     }
+    //   });
+
     reset();
   };
 
