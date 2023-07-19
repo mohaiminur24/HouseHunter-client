@@ -58,7 +58,7 @@ const SingleHouse = ({house}) => {
                 <h2>City: <span className='font-normal'>{city}</span></h2>
                 <h2>Room Size: <span className='font-normal'>{roomsize} Meter</span></h2>
                 <p className='my-1 text-xs font-Raleway font-normal text-gray-500'>{description}</p>
-                <button onClick={()=>handleAddBooking(house)} disabled={user.role !== "HouseRenter"} className='w-full bg-yellow-500 py-2 rounded-md disabled:opacity-30 mt-4'>Add Booking</button>
+                <button onClick={()=>handleAddBooking(house)} disabled={user?.role !== "HouseRenter"} className='w-full bg-yellow-500 py-2 rounded-md disabled:opacity-30 mt-4'>Add Booking</button>
             </div>
         </div>
     );

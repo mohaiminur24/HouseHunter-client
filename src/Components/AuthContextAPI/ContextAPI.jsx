@@ -4,6 +4,7 @@ export const AuthContext = createContext(null);
 
 
 const ContextAPI = ({children}) => {
+  const [isLoading, setLoading] = useState(false);
 
     // Create json web token function is here
     const createtoken = (user)=>{
@@ -14,12 +15,16 @@ const ContextAPI = ({children}) => {
           },
           body: JSON.stringify(user),
         }).then((res) => res.json()).then(data=> {
-          localStorage.setItem('access-token',data.token)
+          localStorage.setItem('access-token',data.token);
+          setLoading(false);
         })
     };
     
     const authValue = {
-        createtoken
+        createtoken,
+        isLoading,
+        setLoading
+
     };
 
     return (

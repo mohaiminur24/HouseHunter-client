@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../AuthContextAPI/ContextAPI";
 import GetUser from "../CustomHook/GetUser";
 import Swal from "sweetalert2";
@@ -7,6 +7,7 @@ import HouseOwner from "../HouseOwnerDashboard/HouseOwner";
 
 const Header = () => {
   const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const user = GetUser();
@@ -24,6 +25,7 @@ const Header = () => {
       showConfirmButton: false,
       timer: 1500,
     });
+    navigate("/login")
   };
 
   // Header menu is here

@@ -7,12 +7,14 @@ import SetUser from "../CustomHook/SetUser";
 import { AuthContext } from "../AuthContextAPI/ContextAPI";
 
 const LoginPage = () => {
+  const {setLoading, isLoading} = useContext(AuthContext);
     const { register, formState: { errors }, handleSubmit, reset } = useForm();
     const navigate = useNavigate();
     const {createtoken} = useContext(AuthContext);
 
     // Login system function implement is complete
     const handleLogin = data =>{
+      setLoading(true);
         fetch(`http://localhost:3000/getnewuser?email=${data.email}`).then(res=> res.json())
         .then(resdata=>{
           if(resdata?.password == data.password){
@@ -28,8 +30,10 @@ const LoginPage = () => {
             reset();
             if(resdata.role == "HouseRenter"){
               navigate("/houserent");
+              setLoading(false);
             }else{
               navigate("/houseowner");
+              setLoading(false);
             };
           }else if(resdata?.error){
             Swal.fire({
@@ -37,13 +41,15 @@ const LoginPage = () => {
               title: 'Oops...',
               text: 'Email not match!',
             });
+            setLoading(false);
           }else{
             Swal.fire({
               icon: 'error',
               title: 'Oops...',
               text: 'password not match!',
             });
-          }
+            setLoading(false);
+          };
         });
     };
   return (

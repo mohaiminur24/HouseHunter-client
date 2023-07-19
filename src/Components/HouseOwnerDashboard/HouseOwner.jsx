@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Header from "../ReUseableComponents/Header";
 import Footer from "../ReUseableComponents/Footer";
 import Container from "../ReUseableComponents/Container";
@@ -7,13 +7,19 @@ import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import AxiosFetch from "../CustomHook/AxiosFetch";
 import HouseTable from "./HouseTable";
+import { AuthContext } from "../AuthContextAPI/ContextAPI";
 
 const HouseOwner = () => {
+  const {isLoading} = useContext(AuthContext);
   const user = GetUser();
   const axiosSecure = AxiosFetch();
   const { register, handleSubmit, reset } = useForm();
   const [houses, setHouses] = useState(null);
   const [refetch, setRefetch] = useState(false);
+
+  if(isLoading){
+    return;
+  }
 
   useEffect(() => {
     loadhouses();
