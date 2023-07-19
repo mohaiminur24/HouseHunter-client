@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../ReUseableComponents/Header";
 import Footer from "../ReUseableComponents/Footer";
 import Container from "../ReUseableComponents/Container";
@@ -6,11 +6,25 @@ import GetUser from "../CustomHook/GetUser";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import AxiosFetch from "../CustomHook/AxiosFetch";
+import HouseTable from "./HouseTable";
 
 const HouseOwner = () => {
   const user = GetUser();
   const axiosSecure = AxiosFetch();
   const { register, handleSubmit, reset } = useForm();
+  const [houses, setHouses] = useState(null);
+  const [refetch, setRefetch] = useState(false);
+
+  useEffect(() => {
+    loadhouses();
+  }, [refetch]);
+
+  const loadhouses = async () => {
+    const result = await axiosSecure(
+      `http://localhost:3000/getsingleuserhouses?email=${user.email}`
+    );
+    setHouses(result.data);
+  };
 
   const handleAddNewHouse = async (data) => {
     const newHouse = {
@@ -20,40 +34,28 @@ const HouseOwner = () => {
       HousePhone: user.phone,
     };
 
-   const result =await axiosSecure.post("http://localhost:3000/createnewhouse", newHouse);
-   console.log(result);
-   if (result.data.insertedId) {
-    Swal.fire({
-      position: "center",
-      icon: "success",
-      title: "New House Add Successfully!",
-      showConfirmButton: false,
-      timer: 1500,
-    });
-   }else(
-    console.log("Somethins went wrong!")
-   )
-
-    // fetch("http://localhost:3000/createnewhouse", {
-    //   method: "POST",
-    //   headers: {
-    //     "content-type": "application/json",
-    //   },
-    //   body: JSON.stringify(newHouse),
-    // })
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     if (data.insertedId) {
-    //       Swal.fire({
-    //         position: "center",
-    //         icon: "success",
-    //         title: "New House Add Successfully!",
-    //         showConfirmButton: false,
-    //         timer: 1500,
-    //       });
-    //     }
-    //   });
-
+    const result = await axiosSecure.post(
+      "http://localhost:3000/createnewhouse",
+      newHouse
+    );
+    console.log(result);
+    if (result.data.insertedId) {
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "New House Add Successfully!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      setRefetch(!refetch);
+    } else
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Something went wrong!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     reset();
   };
 
@@ -84,37 +86,7 @@ const HouseOwner = () => {
                 </tr>
               </thead>
               <tbody>
-                {/* row 1 */}
-                <tr>
-                  <th>1</th>
-                  <td>
-                    <div className="flex items-center space-x-3">
-                      <div className="avatar">
-                        <div className="mask mask-squircle w-12 h-12">
-                          <img
-                            src="/tailwind-css-component-profile-2@56w.png"
-                            alt="Avatar Tailwind CSS Component"
-                          />
-                        </div>
-                      </div>
-                      <div>
-                        <div className="font-bold">Hart Hagerty</div>
-                        <div className="text-sm opacity-50">United States</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    Zemlak, Daniel and Leannon
-                    <br />
-                    <span className="badge badge-ghost badge-sm">
-                      Desktop Support Technician
-                    </span>
-                  </td>
-                  <td>Purple</td>
-                  <th>
-                    <button className="btn btn-ghost btn-xs">details</button>
-                  </th>
-                </tr>
+                {houses && houses.map((houses,index)=> <HouseTable key={index} index={index} house={houses} setRefetch={setRefetch} refetch={refetch}/>)}
               </tbody>
             </table>
           </div>
