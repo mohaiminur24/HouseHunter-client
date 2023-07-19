@@ -10,8 +10,18 @@ const SingleHouse = ({house}) => {
 
     const handleAddBooking = async(house)=>{
         delete house._id;
-        const bookhouse = {...house, bookingUser: user.email}
+        const bookhouse = {...house, bookingEmail: user.email, bookingName: user.name, bookingPhone: user.phone}
         const result = await axiosSecure.post(`http://localhost:3000/bookinghouse`,bookhouse);
+        if(result.data.error =="maxtwoError"){
+            Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: 'Max 2 Booking allawed!',
+                showConfirmButton: false,
+                timer: 1500
+              });
+              return;
+        };
         if(result.data.insertedId){
             Swal.fire({
                 position: 'center',
