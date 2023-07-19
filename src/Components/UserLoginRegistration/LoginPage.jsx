@@ -15,7 +15,7 @@ const LoginPage = () => {
     // Login system function implement is complete
     const handleLogin = data =>{
       setLoading(true);
-        fetch(`http://localhost:3000/getnewuser?email=${data.email}`).then(res=> res.json())
+        fetch(`https://househunter-lake.vercel.app/getnewuser?email=${data.email}`).then(res=> res.json())
         .then(resdata=>{
           if(resdata?.password == data.password){
             SetUser(resdata);

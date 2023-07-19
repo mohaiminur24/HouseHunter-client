@@ -17,13 +17,13 @@ const HouseUpdate = () => {
     },[])
 
     const handleLoadHouse = async(id) =>{
-        const result = await axiosSecure(`http://localhost:3000/gethouse?id=${id}`);
+        const result = await axiosSecure(`https://househunter-lake.vercel.app/gethouse?id=${id}`);
         setHouse(result.data);
     };
 
 
     const handleUpdateHouse = async (data) => {
-      const result = await axiosSecure.patch(`http://localhost:3000/updatehouse?id=${house._id}`,data);
+      const result = await axiosSecure.patch(`https://househunter-lake.vercel.app/updatehouse?id=${house._id}`,data);
       if(result.data.modifiedCount){
         Swal.fire({
           position: 'center',

@@ -5,7 +5,7 @@ import { useEffect } from "react";
 const AxiosFetch = () => {
   const navigate = useNavigate();
   const axiosSecure = axios.create({
-    baseURL: "http://localhost:3000/",
+    baseURL: "https://househunter-lake.vercel.app/",
   });
 
   useEffect(() => {

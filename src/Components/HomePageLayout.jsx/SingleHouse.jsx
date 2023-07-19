@@ -11,7 +11,7 @@ const SingleHouse = ({house}) => {
     const handleAddBooking = async(house)=>{
         delete house._id;
         const bookhouse = {...house, bookingEmail: user.email, bookingName: user.name, bookingPhone: user.phone}
-        const result = await axiosSecure.post(`http://localhost:3000/bookinghouse`,bookhouse);
+        const result = await axiosSecure.post(`https://househunter-lake.vercel.app/bookinghouse`,bookhouse);
         if(result.data.error =="maxtwoError"){
             Swal.fire({
                 position: 'center',

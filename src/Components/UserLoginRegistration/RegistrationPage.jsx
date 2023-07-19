@@ -35,7 +35,7 @@ const RegistrationPage = () => {
       return;
     }
     // Password validation end from here
-    fetch("http://localhost:3000/createnewuser",{
+    fetch("https://househunter-lake.vercel.app/createnewuser",{
       method: "POST",
       headers: {
         "content-type": "application/json"

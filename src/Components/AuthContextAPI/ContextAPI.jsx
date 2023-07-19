@@ -8,7 +8,7 @@ const ContextAPI = ({children}) => {
 
     // Create json web token function is here
     const createtoken = (user)=>{
-        fetch("http://localhost:3000/jwt", {
+        fetch("https://househunter-lake.vercel.app/jwt", {
           method: "POST",
           headers: {
             "content-type": "application/json",

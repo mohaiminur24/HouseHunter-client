@@ -18,7 +18,7 @@ const HouseTable = ({ house, index, setRefetch, refetch }) => {
   } = house;
   const handleDelete = async (id) => {
     const result = await axiosSecure.delete(
-      `http://localhost:3000/deleteuserroute?id=${id}`
+      `https://househunter-lake.vercel.app/deleteuserroute?id=${id}`
     );
     if (result.data.deletedCount) {
       Swal.fire({

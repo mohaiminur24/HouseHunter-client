@@ -27,7 +27,7 @@ const HouseOwner = () => {
 
   const loadhouses = async () => {
     const result = await axiosSecure(
-      `http://localhost:3000/getsingleuserhouses?email=${user.email}`
+      `https://househunter-lake.vercel.app/getsingleuserhouses?email=${user.email}`
     );
     setHouses(result.data);
   };
@@ -41,7 +41,7 @@ const HouseOwner = () => {
     };
 
     const result = await axiosSecure.post(
-      "http://localhost:3000/createnewhouse",
+      "https://househunter-lake.vercel.app/createnewhouse",
       newHouse
     );
     console.log(result);

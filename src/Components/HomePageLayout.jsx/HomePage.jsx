@@ -8,7 +8,7 @@ const HomePage = () => {
     const [houses, setHouses] = useState(null);
 
     useEffect(()=>{
-        fetch("http://localhost:3000/allhouses").then(res=>res.json()).then(data=>setHouses(data));
+        fetch("https://househunter-lake.vercel.app/allhouses").then(res=>res.json()).then(data=>setHouses(data));
     },[]);
 
     const handlefilter = (event)=>{
@@ -27,16 +27,16 @@ const HomePage = () => {
         }else if(city && bedroom){
           filterData = {city,bedroom};
         }else if(city){
-          filterData = {city,bedroom,abilitydate,roomsize};
+          filterData = {city};
         };
-        fetch(`http://localhost:3000/filterdata?rent=${rentpermonth}`,{
+        fetch(`https://househunter-lake.vercel.app/filterdata?rent=${rentpermonth}`,{
           method:"POST",
           headers:{
             "content-type":"application/json"
           },
           body: JSON.stringify(filterData)
         }).then(res=>res.json())
-        .then(data=> console.log(data));
+        .then(data=> setHouses(data));
     };
   return (
     <>

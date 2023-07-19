@@ -12,7 +12,7 @@ const HouseRent = () => {
 
   const hanleloadhouses = async () => {
     const result = await axiosSecure(
-      `http://localhost:3000/houserenterhouse?email=${user.email}`
+      `https://househunter-lake.vercel.app/houserenterhouse?email=${user.email}`
     );
     setHouses(result.data);
   };
