@@ -15,7 +15,6 @@ const HouseUpdate = () => {
     useEffect(()=>{
         handleLoadHouse(houseID.id)
     },[])
-
     const handleLoadHouse = async(id) =>{
         const result = await axiosSecure(`https://househunter-lake.vercel.app/gethouse?id=${id}`);
         setHouse(result.data);
@@ -23,7 +22,9 @@ const HouseUpdate = () => {
 
 
     const handleUpdateHouse = async (data) => {
-      const result = await axiosSecure.patch(`https://househunter-lake.vercel.app/updatehouse?id=${house._id}`,data);
+      const rentpermonth = parseFloat(data.rentpermonth);
+      delete data.rentpermonth;
+      const result = await axiosSecure.patch(`https://househunter-lake.vercel.app/updatehouse?id=${house._id}`,{...data,rentpermonth:rentpermonth});
       if(result.data.modifiedCount){
         Swal.fire({
           position: 'center',

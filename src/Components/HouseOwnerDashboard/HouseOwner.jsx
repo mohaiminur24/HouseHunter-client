@@ -33,8 +33,11 @@ const HouseOwner = () => {
   };
 
   const handleAddNewHouse = async (data) => {
+    const rentpermonth = parseFloat(data.rentpermonth);
+    delete data.rentpermonth;
     const newHouse = {
       ...data,
+      rentpermonth: rentpermonth,
       HouseOwner: user.name,
       HouseEmail: user.email,
       HousePhone: user.phone,
