@@ -80,9 +80,9 @@ const HouseOwner = () => {
                 <tr>
                   <th>Index</th>
                   <th>Name</th>
-                  <th>Job</th>
-                  <th>Favorite Color</th>
-                  <th></th>
+                  <th>Location</th>
+                  <th>Details</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>

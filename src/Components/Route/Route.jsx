@@ -4,6 +4,7 @@ import LoginPage from "../UserLoginRegistration/LoginPage";
 import RegistrationPage from "../UserLoginRegistration/RegistrationPage";
 import HouseRent from "../HouseRentDashboard/HouseRent";
 import HouseOwner from "../HouseOwnerDashboard/HouseOwner";
+import HouseUpdate from "../HouseUpdateLayout/HouseUpdate";
 
 const route = createBrowserRouter([
     {
@@ -25,6 +26,10 @@ const route = createBrowserRouter([
     {
         path:"/houserent",
         element: <HouseRent/>
+    },
+    {
+        path: "/houseupdate/:id",
+        element: <HouseUpdate/>
     }
 ]);
 
