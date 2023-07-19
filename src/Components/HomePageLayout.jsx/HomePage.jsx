@@ -41,7 +41,7 @@ const HomePage = () => {
             {/* filter end from here */}
 
             {/* House list container is here */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5 mt-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5 mt-5">
                 {houses && houses.map((house,index)=> <SingleHouse house={house} key={index} />)}
             </div>
 
